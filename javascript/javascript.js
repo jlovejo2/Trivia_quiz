@@ -13,7 +13,7 @@
 var time = 100;
 var quizButton = document.querySelector("#quiz_start");
 var interval; 
-var quiz_content = document.querySelector("#quiz_content");
+var quiz_content = document.querySelector(".quiz_content");
 var quiz_title = document.querySelector("#quiz_title"); 
 var quiz_instr = document.getElementById("quiz_instr");
 // var q1_title = document.questions1.title
@@ -34,10 +34,13 @@ function startQuiz() {
     console.log(x);
     for (i=0; i < x.length; i++) {
         var newEl = document.createElement("button");
+        var br = document.createElement("br");
+        var hr = document.createElement("hr");
         newEl.setAttribute("class", "answer");
         newEl.innerHTML = x[i];
         quiz_content.appendChild(newEl);
-
+        quiz_content.appendChild(br);
+        quiz_content.appendChild(hr);
     }
 }
 
