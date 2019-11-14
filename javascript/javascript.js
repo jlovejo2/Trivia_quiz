@@ -11,14 +11,34 @@
 //     -clicking wrong answer docks 15 seconds and progresses to next question
 
 var time = 100;
-var quizButton = document.querySelector(".quiz_start");
+var quizButton = document.querySelector("#quiz_start");
 var interval; 
-document.getElementById("timer").innerHTML = "Timer: " + time;
+var quiz_content = document.querySelector("#quiz_content");
+var quiz_title = document.querySelector("#quiz_title"); 
+var quiz_instr = document.getElementById("quiz_instr");
+// var q1_title = document.questions1.title
+
+console.log(quiz_content);
+console.log(quiz_title);
+
 
 
 function startQuiz() {
+    document.getElementById("timer").innerHTML = "Timer: " + time;
     interval = setInterval(countDown, 1000)
+    quiz_title.textContent = questions1[0].title;
+    quiz_q = "";
+    quizButton.parentNode.removeChild(quizButton);
+    quiz_instr.parentNode.removeChild(quiz_instr);
+    var x = questions1[0].choices
+    console.log(x);
+    for (i=0; i < x.length; i++) {
+        var newEl = document.createElement("button");
+        newEl.setAttribute("class", "answer");
+        newEl.innerHTML = x[i];
+        quiz_content.appendChild(newEl);
 
+    }
 }
 
 function countDown(){
