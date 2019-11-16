@@ -22,15 +22,9 @@ var answer = document.querySelectorAll(".answer");
 
 var currentQuestionIndex = 0;
 
-// currentQuestionIndex ++;
-// currentQuestionIndex = currentQuestionIndex + 1;
-// // also the same as
-// currentQuestionIndex += 1;
-
-console.log(quiz_content);
-console.log(quiz_title);
 
 quizButton.addEventListener("click", startQuiz);
+// quiz_content.addEventListener("click",);
 
 function startQuiz() {
     var x = questions1[currentQuestionIndex].choices
@@ -46,7 +40,6 @@ function startQuiz() {
         var br = document.createElement("br");
         var hr = document.createElement("hr");
         buttonEl.setAttribute("class", "answer");
-        // newEl.onclick = wrong_answer;
         buttonEl.innerHTML = x[i];
         quiz_content.appendChild(buttonEl);
         quiz_content.appendChild(br);
@@ -55,7 +48,6 @@ function startQuiz() {
         if (x[i] === questions1[currentQuestionIndex].answer) {
             console.log("woohoo!!");
             buttonEl.setAttribute("id", "correct_answer");
-            //newEl.onclick = correct_answer;
             buttonEl.addEventListener("click", correct_answer);
         } else {
             buttonEl.onclick = wrong_answer;
@@ -67,11 +59,12 @@ function startQuiz() {
 function correct_answer() {
     currentQuestionIndex++;
 
-    time = time + 10;
+    // time = time + 10;
 
     quiz_title.textContent = questions1[currentQuestionIndex].title;
     quiz_instr.textContent = "Nice, that one was correct!";
     quiz_instr.setAttribute("style", "border-top: 3px solid black;");
+    quiz_instr.setAttribute("style", "color: red;");
     quiz_content.appendChild(quiz_instr);
 
     RightAnswerCheck();
@@ -118,27 +111,28 @@ function RightAnswerCheck() {
 
     for (i = 0; i < answer.length; i++) {
         answer[i].innerHTML = qChoices[i];
+        answer[i].removeEventListener("click",correct_answer);
+        answer[i].removeEventListener("click",wrong_answer);
 
         if (qChoices[i] === questions1[currentQuestionIndex].answer) {
-            answer[i].removeAttribute(onclick);
             answer[i].setAttribute("id", "correct_answer");
-            answer[i].onclick = correct_answer;
+            answer[i].addEventListener("click", correct_answer);
             answer[i].setAttribute("style", "color: red;");
 
         } else if (qChoices[i] === "end") {
-            var endScore = document.createElement("p");
-            endScore.textContent = "final score is: " + time;
+            // var endScore = document.createElement("p");
+            // endScore.textContent = "final score is: " + time;
+            var endScore = time;
+            localStorage.setItem("endScore", JSON.stringify(endScore));
             clearInterval(interval);
             window.location.href = "highscore.html";
-            document.querySelector("#final_score").innerHTML = endScore;
+            
         }
         else {
-            answer[i].removeAttribute(onclick);
             answer[i].removeAttribute("id");
             answer[i].removeAttribute("style");
-            answer[i].onclick = wrong_answer;
+            answer[i].addEventListener("click", wrong_answer);
         }
     }
 }
-
 

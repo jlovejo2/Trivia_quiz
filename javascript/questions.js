@@ -17,6 +17,11 @@ var questions1 = [
      answer: "count"
     },
     { 
+      title: "What is the result of using modulus operator for 38 % 5?",
+      choices: ["1", "2", "3", "4"],
+      answer: "3"
+     },
+    { 
       title: " ",
       choices: ["end"],
       answer: " "
