@@ -1,15 +1,4 @@
-// psuedo code:
-// -first page has information with two links
-//         1 - link to high scores page
-//         2 - button to start quiz
-//         3 - time reads 0 in upper right corner
-// -2 - clicking start quiz roles immediately into questions
-//     -timer: goes to start time and begins counting down by one second
-//     -title is displayed as Header
-//     -then choice options are displayed as buttons in a ul?
-//     -clicking right answer progresses to next questions
-//     -clicking wrong answer docks 15 seconds and progresses to next question
-
+//This is where all my global variables are declared;
 var time = 100;
 var quizButton = document.querySelector("#quiz_start");
 var interval;
@@ -17,59 +6,62 @@ var quiz_content = document.querySelector(".quiz_content");
 var quiz_title = document.querySelector("#quiz_title");
 var quiz_instr = document.getElementById("quiz_instr");
 var answer = document.querySelectorAll(".answer");
-// var questionEl = 0; 
-// var q1_title = document.questions1.title
-
 var currentQuestionIndex = 0;
 
-
+//This is the event listener for the start quiz button
 quizButton.addEventListener("click", startQuiz);
-// quiz_content.addEventListener("click",);
 
+//This is the function that is run when the start quiz button is clicked
 function startQuiz() {
-    var x = questions1[currentQuestionIndex].choices
+    //set the array of choices from the questions object for the current index equal to x
+    var qChoices = questions1[currentQuestionIndex].choices
 
+    //This code deals with the display and starting of the timer
     document.getElementById("timer").innerHTML = "Timer: " + time;
     interval = setInterval(countDown, 1000)
+    //This code replaces the header content with the question title
     quiz_title.textContent = questions1[currentQuestionIndex].title;
+    //removes the start quiz button and sets content to empty string
     quizButton.parentNode.removeChild(quizButton);
     quiz_instr.textContent = " ";
 
-    for (i = 0; i < x.length; i++) {
+    //This for loop is run to create buttons for the choices of x
+    for (i = 0; i < qChoices.length; i++) {
         var buttonEl = document.createElement("button");
         var br = document.createElement("br");
         var hr = document.createElement("hr");
         buttonEl.setAttribute("class", "answer");
-        buttonEl.innerHTML = x[i];
+        buttonEl.innerHTML = qChoices[i];
         quiz_content.appendChild(buttonEl);
         quiz_content.appendChild(br);
         quiz_content.appendChild(hr);
 
-        if (x[i] === questions1[currentQuestionIndex].answer) {
+        if (qChoices[i] === questions1[currentQuestionIndex].answer) {
             console.log("woohoo!!");
             buttonEl.setAttribute("id", "correct_answer");
             buttonEl.addEventListener("click", correct_answer);
         } else {
-            buttonEl.onclick = wrong_answer;
+            buttonEl.addEventListener("click", wrong_answer);
         }
     }
     document.getElementById("correct_answer").setAttribute("style", "color: red;");
 }
 
+//This function runs if the correct answer is clicked on
 function correct_answer() {
     currentQuestionIndex++;
 
-    // time = time + 10;
-
+    //Deals with formatting the page based on the correct answer
     quiz_title.textContent = questions1[currentQuestionIndex].title;
     quiz_instr.textContent = "Nice, that one was correct!";
     quiz_instr.setAttribute("style", "border-top: 3px solid black;");
-    quiz_instr.setAttribute("style", "color: red;");
+    quiz_instr.setAttribute("style", "color: green;");
     quiz_content.appendChild(quiz_instr);
 
     RightAnswerCheck();
 }
 
+//This function runs if a wrong answer is clicked on
 function wrong_answer() {
     currentQuestionIndex++;
 
@@ -78,11 +70,13 @@ function wrong_answer() {
     quiz_title.textContent = questions1[currentQuestionIndex].title;
     quiz_instr.textContent = "Ouch, that one was wrong!";
     quiz_instr.setAttribute("style", "border-top: 3px solid black;");
+    quiz_instr.setAttribute("style", "color: red;");
     quiz_content.appendChild(quiz_instr);
 
     RightAnswerCheck();
 }
 
+//This function runs the timer interval
 function countDown() {
 
     if (time >= 0) {
@@ -98,23 +92,17 @@ function countDown() {
     document.getElementById("timer").innerHTML = "Timer: " + time;
 }
 
-function deleteButtons() {
-    for (i = 0; i < answer.length; i++) {
-        answer.parentNode.removeChild(answer);
-    }
-    console.log("howdy");
-}
-
+//This function runs everytime an answer is clicked on and does different operations depending on if the answer has the correct_answer class or not.
 function RightAnswerCheck() {
-    var qChoices = questions1[currentQuestionIndex].choices;
-    var answer = document.querySelectorAll(".answer");
-
-    for (i = 0; i < answer.length; i++) {
-        answer[i].innerHTML = qChoices[i];
-        answer[i].removeEventListener("click",correct_answer);
-        answer[i].removeEventListener("click",wrong_answer);
+        var qChoices = questions1[currentQuestionIndex].choices;
+        var answer = document.querySelectorAll(".answer");
+    
+        for (i = 0; i < answer.length; i++) {
+        answer[i].innerHTML = qChoices[i];      
 
         if (qChoices[i] === questions1[currentQuestionIndex].answer) {
+            answer[i].removeEventListener("click", wrong_answer);
+            answer[i].removeAttribute("id");
             answer[i].setAttribute("id", "correct_answer");
             answer[i].addEventListener("click", correct_answer);
             answer[i].setAttribute("style", "color: red;");
@@ -129,6 +117,7 @@ function RightAnswerCheck() {
             
         }
         else {
+            answer[i].removeEventListener("click", correct_answer);
             answer[i].removeAttribute("id");
             answer[i].removeAttribute("style");
             answer[i].addEventListener("click", wrong_answer);
