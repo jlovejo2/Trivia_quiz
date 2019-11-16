@@ -15,6 +15,12 @@ var questions1 = [
      title: "Which of these is not a javascript reserved word that could cause shadowing as a variable?",
      choices: ["float", "continue", "switch", "count"],
      answer: "count"
-    }
-  
+    },
+    { 
+      title: " ",
+      choices: ["end"],
+      answer: " "
+     }
   ]
+
+  

@@ -16,8 +16,7 @@ var interval;
 var quiz_content = document.querySelector(".quiz_content");
 var quiz_title = document.querySelector("#quiz_title");
 var quiz_instr = document.getElementById("quiz_instr");
-var wrong = document.querySelector(".answer");
-var correct = document.getElementById("correct_answer");
+var answer = document.querySelectorAll(".answer");
 // var questionEl = 0; 
 // var q1_title = document.questions1.title
 
@@ -31,6 +30,7 @@ var currentQuestionIndex = 0;
 console.log(quiz_content);
 console.log(quiz_title);
 
+quizButton.addEventListener("click", startQuiz);
 
 function startQuiz() {
     var x = questions1[currentQuestionIndex].choices
@@ -38,90 +38,60 @@ function startQuiz() {
     document.getElementById("timer").innerHTML = "Timer: " + time;
     interval = setInterval(countDown, 1000)
     quiz_title.textContent = questions1[currentQuestionIndex].title;
-    quiz_q = "";
     quizButton.parentNode.removeChild(quizButton);
-    quiz_instr.parentNode.removeChild(quiz_instr);
+    quiz_instr.textContent = " ";
 
     for (i = 0; i < x.length; i++) {
-        var newEl = document.createElement("button");
+        var buttonEl = document.createElement("button");
         var br = document.createElement("br");
         var hr = document.createElement("hr");
-        newEl.setAttribute("class", "answer");
+        buttonEl.setAttribute("class", "answer");
         // newEl.onclick = wrong_answer;
-        newEl.innerHTML = x[i];
-        quiz_content.appendChild(newEl);
+        buttonEl.innerHTML = x[i];
+        quiz_content.appendChild(buttonEl);
         quiz_content.appendChild(br);
         quiz_content.appendChild(hr);
 
         if (x[i] === questions1[currentQuestionIndex].answer) {
             console.log("woohoo!!");
-            newEl.setAttribute("id", "correct_answer");
+            buttonEl.setAttribute("id", "correct_answer");
             //newEl.onclick = correct_answer;
-            newEl.addEventListener("click", correct_answer);
+            buttonEl.addEventListener("click", correct_answer);
         } else {
-            newEl.onclick = wrong_answer;
+            buttonEl.onclick = wrong_answer;
         }
     }
-
     document.getElementById("correct_answer").setAttribute("style", "color: red;");
 }
 
-
 function correct_answer() {
     currentQuestionIndex++;
-    var choices = questions1[currentQuestionIndex].choices;
-    var answer = document.querySelectorAll(".answer");
+
     time = time + 10;
 
     quiz_title.textContent = questions1[currentQuestionIndex].title;
+    quiz_instr.textContent = "Nice, that one was correct!";
+    quiz_instr.setAttribute("style", "border-top: 3px solid black;");
+    quiz_content.appendChild(quiz_instr);
 
-    for (i = 0; i < answer.length; i++) {
-        answer[i].innerHTML = choices[i];
-
-        if (choices[i] === questions1[currentQuestionIndex].answer) {
-            console.log("woohoo!!");
-            answer[i].removeAttribute(onclick);
-            answer[i].setAttribute("id", "correct_answer");
-            answer[i].onclick = correct_answer;
-            answer[i].setAttribute("style", "color: red;");
-        } else {
-            answer[i].removeAttribute(onclick);
-            answer[i].removeAttribute("id");
-            answer[i].removeAttribute("style");
-            answer[i].onclick = wrong_answer;
-        }
-    }
+    RightAnswerCheck();
 }
 
 function wrong_answer() {
     currentQuestionIndex++;
-    var choices= questions1[currentQuestionIndex].choices;
-    var answer = document.querySelectorAll(".answer");
+
     time = time - 15;
 
     quiz_title.textContent = questions1[currentQuestionIndex].title;
+    quiz_instr.textContent = "Ouch, that one was wrong!";
+    quiz_instr.setAttribute("style", "border-top: 3px solid black;");
+    quiz_content.appendChild(quiz_instr);
 
-    for (i = 0; i < answer.length; i++) {
-        answer[i].innerHTML = choices[i];
-
-        if (choices[i] === questions1[currentQuestionIndex].answer) {
-            console.log("woohoo!!");
-            answer[i].removeAttribute(onclick);
-            answer[i].setAttribute("id", "correct_answer");
-            answer[i].onclick = correct_answer;
-           
-            answer[i].setAttribute("style", "color: red;");
-        } else {
-            answer[i].removeAttribute(onclick);
-            answer[i].removeAttribute("id");
-            answer[i].removeAttribute("style");
-            answer[i].onclick = wrong_answer;
-        }
-    }
+    RightAnswerCheck();
 }
 
 function countDown() {
-    
+
     if (time >= 0) {
         // Get timer to countdown continously
         time--;
@@ -131,16 +101,44 @@ function countDown() {
         clearInterval(time);
         document.getElementById("timer").innerHTML = "EXPIRED";
     }
-    
+
     document.getElementById("timer").innerHTML = "Timer: " + time;
 }
 
+function deleteButtons() {
+    for (i = 0; i < answer.length; i++) {
+        answer.parentNode.removeChild(answer);
+    }
+    console.log("howdy");
+}
 
+function RightAnswerCheck() {
+    var qChoices = questions1[currentQuestionIndex].choices;
+    var answer = document.querySelectorAll(".answer");
 
-quizButton.addEventListener("click", startQuiz);
+    for (i = 0; i < answer.length; i++) {
+        answer[i].innerHTML = qChoices[i];
 
-console.log(correct);
+        if (qChoices[i] === questions1[currentQuestionIndex].answer) {
+            answer[i].removeAttribute(onclick);
+            answer[i].setAttribute("id", "correct_answer");
+            answer[i].onclick = correct_answer;
+            answer[i].setAttribute("style", "color: red;");
 
-
+        } else if (qChoices[i] === "end") {
+            var endScore = document.createElement("p");
+            endScore.textContent = "final score is: " + time;
+            clearInterval(interval);
+            window.location.href = "highscore.html";
+            document.querySelector("#final_score").innerHTML = endScore;
+        }
+        else {
+            answer[i].removeAttribute(onclick);
+            answer[i].removeAttribute("id");
+            answer[i].removeAttribute("style");
+            answer[i].onclick = wrong_answer;
+        }
+    }
+}
 
 
