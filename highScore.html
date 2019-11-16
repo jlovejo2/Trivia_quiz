@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>High Score Page</title>
+    <!--Link to Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--Link to CSS style sheet-->
+    <link rel="stylesheet" text="text/css" href="css/style.css">
+    <!--Link to reset CSS-->
+    <link rel="stylesheet" text="text/css" href="reset.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-between p-4">
+            <a href="index.html">Back to Quiz Menu</a>
+            <div id="timer">Time: 0</div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12 p-3"></div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 p-3 m-3">
+                <div id="highscore_content" class="scores">
+                    <h2 id="final_score"></h2>
+                    <form id="score-form" method="POST">
+                        <label for="user-text">Add a HIGHSCORE:</label>
+                        <input type="text" placeholder="Enter Initials Here" name="user-text" id="user-text" />
+                        <button type="button" id="clear" class="btn btn-primary btn-sm">clear high scores</button>
+                    </form>
+                    <p>High Score List: <span id="highScore-count">0</span></p>
+                    <ul id="highScore-list"></ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-1 col-xs-12 p-3"></div>
+        </div>
+    </div>
+    <script src="javascript/questions.js"></script>
+    <script src="javascript/javascript.js"></script>
+    <script src="javascript/highscore.js"></script> 
+</body>
+
+</html>
