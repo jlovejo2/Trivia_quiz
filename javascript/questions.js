@@ -21,6 +21,16 @@ var questions1 = [
       choices: ["1", "2", "3", "4"],
       answer: "3"
      },
+     { 
+      title: "What happens in an if statement if the test condition is false?",
+      choices: ["the code in the braces is executed", "the code's execution will be stopped", "the code does nothing and moves to the next section", "the code gets stuck in an endless loop"],
+      answer: "the code does nothing and moves to the next section"
+     },
+     { 
+      title: "The switch statement can be used to replace...",
+      choices: ["multiple if else statements", "variable delcarations", "comments", "multiple for loops"],
+      answer: "multiple if else statements"
+     },
     { 
       title: " ",
       choices: ["end"],

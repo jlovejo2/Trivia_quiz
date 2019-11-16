@@ -1,5 +1,5 @@
 //This is where all my global variables are declared;
-var time = 100;
+var time = 15 * questions1.length;
 var quizButton = document.querySelector("#quiz_start");
 var interval;
 var quiz_content = document.querySelector(".quiz_content");
@@ -37,14 +37,12 @@ function startQuiz() {
         quiz_content.appendChild(hr);
 
         if (qChoices[i] === questions1[currentQuestionIndex].answer) {
-            console.log("woohoo!!");
             buttonEl.setAttribute("id", "correct_answer");
             buttonEl.addEventListener("click", correct_answer);
         } else {
             buttonEl.addEventListener("click", wrong_answer);
         }
     }
-    document.getElementById("correct_answer").setAttribute("style", "color: red;");
 }
 
 //This function runs if the correct answer is clicked on
@@ -96,17 +94,17 @@ function countDown() {
 function RightAnswerCheck() {
         var qChoices = questions1[currentQuestionIndex].choices;
         var answer = document.querySelectorAll(".answer");
-    
+
+        //This loops finds all the answer buttons which were set to array answer and changes the innner content of the button to the choices in the next question of object
         for (i = 0; i < answer.length; i++) {
         answer[i].innerHTML = qChoices[i];      
-
+        //this if statement only runs if the answer button being created is the correct answer
         if (qChoices[i] === questions1[currentQuestionIndex].answer) {
             answer[i].removeEventListener("click", wrong_answer);
             answer[i].removeAttribute("id");
             answer[i].setAttribute("id", "correct_answer");
             answer[i].addEventListener("click", correct_answer);
-            answer[i].setAttribute("style", "color: red;");
-
+        //My questions object has an element with just end in the choices.  This part of statement is meant to end the quiz and direct to high score page.
         } else if (qChoices[i] === "end") {
             // var endScore = document.createElement("p");
             // endScore.textContent = "final score is: " + time;
@@ -115,7 +113,7 @@ function RightAnswerCheck() {
             clearInterval(interval);
             window.location.href = "highscore.html";
             
-        }
+        } //This part of statement runs for all that is left.  Which in this case is all the wrong answers.
         else {
             answer[i].removeEventListener("click", correct_answer);
             answer[i].removeAttribute("id");
