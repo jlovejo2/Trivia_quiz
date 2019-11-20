@@ -111,7 +111,7 @@ function RightAnswerCheck() {
             var endScore = time;
             localStorage.setItem("endScore", JSON.stringify(endScore));
             clearInterval(interval);
-            window.location.href = "highscore.html";
+            window.location.href = "/highScore.html";
             
         } //This part of statement runs for all that is left.  Which in this case is all the wrong answers.
         else {
